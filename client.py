@@ -41,6 +41,7 @@ if __name__ == '__main__':
 
     while True:
         data = input("Enter message to sent or type 'exit': ")
+        data = compress(data)
         data2 = bytes(data, 'utf-8')
         UDPSock.sendto(data2, address)
         if data == "exit":
