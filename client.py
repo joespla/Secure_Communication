@@ -34,14 +34,14 @@ def compress(uncompressed):
 if __name__ == '__main__':
 
     # Set the ip from the receiver
-    host = "192.168.100.16"
+    host = "192.168.100.20"
     port = 13000
     address = (host, port)
     UDPSock = socket(AF_INET, SOCK_DGRAM)
 
     while True:
         data = input("Enter message to sent or type 'exit': ")
-        data = compress(data)
+        data = str(compress(data))
         data2 = bytes(data, 'utf-8')
         UDPSock.sendto(data2, address)
         if data == "exit":
@@ -49,3 +49,6 @@ if __name__ == '__main__':
 
     UDPSock.close()
     os._exit(0)
+
+
+## https://rosettacode.org/wiki/LZW_compression#Python
