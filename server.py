@@ -48,11 +48,11 @@ while True:
     (data, address) = UDPSock.recvfrom(buf)
     data2 = data.decode('utf-8')
 
-    c = []
+    stringToList = []
     for x in data2.split(','):
-        c.append(int(x))
+        stringToList.append(int(x))
 
-    data2 = decompress(c)
+    data2 = decompress(stringToList)
     print("Received message: " + data2)
     if data == "exit":
         break

@@ -41,15 +41,15 @@ if __name__ == '__main__':
 
     while True:
         data = input("Enter message to sent or type 'exit': ")
-        data = str(compress(data))
+        data = compress(data)
 
-        b = ""
+        listToString = ""
         for i, item in enumerate(data):
             if i:
-                b = b + ','
-            b = b + str(item)
+                listToString = listToString + ','
+            listToString = listToString + str(item)
 
-        data2 = bytes(b, 'utf-8')
+        data2 = bytes(listToString, 'utf-8')
         UDPSock.sendto(data2, address)
         if data == "exit":
             break
