@@ -47,7 +47,12 @@ print("Receiving messages. Please wait...")
 while True:
     (data, address) = UDPSock.recvfrom(buf)
     data2 = data.decode('utf-8')
-    data2 = decompress(data2)
+
+    c = []
+    for x in data2.split(','):
+        c.append(int(x))
+
+    data2 = decompress(c)
     print("Received message: " + data2)
     if data == "exit":
         break
