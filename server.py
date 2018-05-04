@@ -149,7 +149,7 @@ def decode(bcipher, privkey, verbose=False):
 
 
 host = ""
-port = 13004
+port = 13007
 buf = 1024
 address = (host, port)
 
@@ -157,8 +157,8 @@ address = (host, port)
 pubkey, privkey = keygen(2 ** 64)
 
 # It will send just one time to send public key
-hostTemp = "192.168.100.16"
-portTemp = 13004
+hostTemp = "10.52.149.181"
+portTemp = 13006
 addressTemp = (hostTemp, portTemp)
 UDPSockTemp = socket(AF_INET, SOCK_DGRAM)
 

@@ -60,8 +60,8 @@ def encode(msg, pubkey, verbose=False):
 if __name__ == '__main__':
 
     # Set the ip from the receiver
-    host = "192.168.100.16"
-    port = 13004
+    host = "10.52.149.181"
+    port = 13007
     address = (host, port)
 
     # Listen just one time to receive public keys
@@ -93,6 +93,7 @@ if __name__ == '__main__':
         if data == "exit":
             break
         msgCompressed = compress(data)
+        #print(msgCompressed)
 
         listToString = ""
         for i, item in enumerate(msgCompressed):
@@ -101,6 +102,7 @@ if __name__ == '__main__':
             listToString = listToString + str(item)
 
         msgCoded = encode(listToString, pubKeyReceived, 1)
+        #print(msgCoded)
 
         UDPSock.sendto(msgCoded, address)
 
