@@ -141,39 +141,43 @@ def decode(bcipher, privkey, verbose=False):
         coded = int(hexlify(bcoded), 16)
         plain = pow(coded, *privkey)
         chunk = unhexlify((outfmt % plain).encode())
-        if verbose: print('Decode:', chunksize, chunk, plain, coded, bcoded)
+        # if verbose: print('Decode:', chunksize, chunk, plain, coded, bcoded)
         result.append(chunk)
     return b''.join(result).rstrip(b'\x00').decode()
 
 
 host = ""
-port = 13000
+port = 13001
 buf = 1024
 address = (host, port)
-UDPSock = socket(AF_INET, SOCK_DGRAM)
 
 # Generate keys
 pubkey, privkey = keygen(2 ** 64)
 
 # It will send just one time to send public key
-hostTemp = "10.48.219.167"
-portTemp = 13000
-addressTemp = (host, port)
+hostTemp = "192.168.100.16"
+portTemp = 13001
+addressTemp = (hostTemp, portTemp)
 UDPSockTemp = socket(AF_INET, SOCK_DGRAM)
 
-dataKeyTemp = pubkey
-dataKeyTemp = bytes(str(dataKeyTemp), 'utf-8')
-UDPSock.sendto(dataKeyTemp, addressTemp)
+dataKeyTemp = str(pubkey.exponent) + ", " + str(pubkey.modulus)
+dataKeyTemp = bytes(dataKeyTemp, 'utf-8')
+UDPSockTemp.sendto(dataKeyTemp, addressTemp)
+print("Key sent to: " + str(addressTemp))
+
+UDPSockTemp.close()
+#os._exit(0)
 # Stops sending
 
+UDPSock = socket(AF_INET, SOCK_DGRAM)
 UDPSock.bind(address)
 print("Receiving messages. Please wait...")
 
 while True:
     (data, address) = UDPSock.recvfrom(buf)
-    data2 = data.decode('utf-8')
+    # data2 = data.decode('utf-8')
 
-    msgDecoded = decode(data2, privkey, 1)
+    msgDecoded = decode(data, privkey, 1)
 
     stringToList = []
     for x in msgDecoded.split(','):
@@ -186,17 +190,3 @@ while True:
 
 UDPSock.close()
 os._exit(0)
-
-'''
-    import doctest
-    print(doctest.testmod())
-
-    pubkey, privkey = keygen(2 ** 64)
-    msg = 'the quick brown fox jumped over the lazy dog'
-    h = encode(msg, pubkey, 1)
-    p = decode(h, privkey, 1)
-    print('-' * 20)
-    print(repr(msg))
-    print("El mensaje encriptado es: " + str(h))
-    print("El mensaje desencriptado es: " + str(repr(p)))
-'''

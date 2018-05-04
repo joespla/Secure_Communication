@@ -52,7 +52,7 @@ def encode(msg, pubkey, verbose=False):
         plain = int(hexlify(chunk), 16)
         coded = pow(plain, *pubkey)
         bcoded = unhexlify((outfmt % coded).encode())
-        if verbose: print('Encode:', chunksize, chunk, plain, coded, bcoded)
+        # if verbose: print('Encode:', chunksize, chunk, plain, coded, bcoded)
         result.append(bcoded)
     return b''.join(result)
 
@@ -60,23 +60,32 @@ def encode(msg, pubkey, verbose=False):
 if __name__ == '__main__':
 
     # Set the ip from the receiver
-    host = "10.48.219.167"
-    port = 13000
+    host = "192.168.100.16"
+    port = 13001
     address = (host, port)
-    UDPSock = socket(AF_INET, SOCK_DGRAM)
 
     # Listen just one time to receive public keys
     hostTemp = ""
-    portTemp = 13000
+    portTemp = 13001
     bufTemp = 1024
-    addressTemp = (host, port)
+    addressTemp = (hostTemp, portTemp)
     UDPSockTemp = socket(AF_INET, SOCK_DGRAM)
 
-    (dataKeyTemp, addressTemp) = UDPSock.recvfrom(bufTemp)
+    UDPSockTemp.bind(addressTemp)
+
+    (dataKeyTemp, addressTemp) = UDPSockTemp.recvfrom(bufTemp)
     data2 = dataKeyTemp.decode('utf-8')
 
-    pubKeyReceived = Key(data2)
+    exponent, modulus = data2.split(",")
+    exponent = int(exponent)
+    modulus = int(modulus)
+
+    pubKeyReceived = Key(exponent, modulus)
+    print("Key received")
+    UDPSockTemp.close()
     # Stops listening
+
+    UDPSock = socket(AF_INET, SOCK_DGRAM)
 
     while True:
 
@@ -93,8 +102,7 @@ if __name__ == '__main__':
 
         msgCoded = encode(listToString, pubKeyReceived, 1)
 
-        data2 = bytes(msgCoded, 'utf-8')
-        UDPSock.sendto(data2, address)
+        UDPSock.sendto(msgCoded, address)
 
     UDPSock.close()
     os._exit(0)
