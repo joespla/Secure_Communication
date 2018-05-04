@@ -151,7 +151,20 @@ port = 13000
 buf = 1024
 address = (host, port)
 UDPSock = socket(AF_INET, SOCK_DGRAM)
+
+# Generate keys
 pubkey, privkey = keygen(2 ** 64)
+
+# It will send just one time to send public key
+hostTemp = "10.48.219.167"
+portTemp = 13000
+addressTemp = (host, port)
+UDPSockTemp = socket(AF_INET, SOCK_DGRAM)
+
+dataKeyTemp = pubkey
+dataKeyTemp = bytes(str(dataKeyTemp), 'utf-8')
+UDPSock.sendto(dataKeyTemp, addressTemp)
+# Stops sending
 
 UDPSock.bind(address)
 print("Receiving messages. Please wait...")
