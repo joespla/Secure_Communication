@@ -2,7 +2,6 @@
 import os
 from socket import *
 
-
 #LWZ Compression
 def compress(uncompressed):
     """Compress a string to a list of output symbols."""
@@ -34,13 +33,16 @@ def compress(uncompressed):
 if __name__ == '__main__':
 
     # Set the ip from the receiver
-    host = "192.168.100.20"
+    host = "10.48.219.167"
     port = 13000
     address = (host, port)
     UDPSock = socket(AF_INET, SOCK_DGRAM)
 
     while True:
+
         data = input("Enter message to sent or type 'exit': ")
+        if data == "exit":
+            break
         data = compress(data)
 
         listToString = ""
@@ -51,8 +53,6 @@ if __name__ == '__main__':
 
         data2 = bytes(listToString, 'utf-8')
         UDPSock.sendto(data2, address)
-        if data == "exit":
-            break
 
     UDPSock.close()
     os._exit(0)
