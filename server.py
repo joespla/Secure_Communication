@@ -47,7 +47,7 @@ def is_prime(n, k=30):
     # write n-1 as 2^s*d where d is odd
     s, d = 0, neg_one
     while not d & 1:
-        s, d = s+1, d>>1
+        s, d = s + 1, d >> 1
     assert 2 ** s * d == neg_one and d & 1
 
     for i in range(k):
@@ -66,7 +66,7 @@ def is_prime(n, k=30):
     return True
 
 
-def randprime(N=10**8):
+def randprime(N=10 ** 8):
     p = 1
     while not is_prime(p):
         p = randrange(N)
@@ -160,20 +160,19 @@ while True:
     (data, address) = UDPSock.recvfrom(buf)
     data2 = data.decode('utf-8')
 
-    p = decode(data2, privkey, 1)
+    msgDecoded = decode(data2, privkey, 1)
 
     stringToList = []
-    for x in data2.split(','):
+    for x in msgDecoded.split(','):
         stringToList.append(int(x))
 
-    data2 = decompress(stringToList)
-    print("Received message: " + data2)
+    msgDecompressed = decompress(stringToList)
+    print("Received message: " + msgDecompressed)
     if data == "exit":
         break
 
 UDPSock.close()
 os._exit(0)
-
 
 '''
     import doctest

@@ -160,17 +160,17 @@ if __name__ == '__main__':
         data = input("Enter message to sent or type 'exit': ")
         if data == "exit":
             break
-        data = compress(data)
+        msgCompressed = compress(data)
 
         listToString = ""
-        for i, item in enumerate(data):
+        for i, item in enumerate(msgCompressed):
             if i:
                 listToString = listToString + ','
             listToString = listToString + str(item)
 
-        messageEncrypted = encode(listToString, pubkey, 1)
+        msgCoded = encode(listToString, pubkey, 1)
 
-        data2 = bytes(messageEncrypted, 'utf-8')
+        data2 = bytes(msgCoded, 'utf-8')
         UDPSock.sendto(data2, address)
 
     UDPSock.close()
