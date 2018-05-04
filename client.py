@@ -61,12 +61,12 @@ if __name__ == '__main__':
 
     # Set the ip from the receiver
     host = "192.168.100.16"
-    port = 13001
+    port = 13004
     address = (host, port)
 
     # Listen just one time to receive public keys
     hostTemp = ""
-    portTemp = 13001
+    portTemp = 13004
     bufTemp = 1024
     addressTemp = (hostTemp, portTemp)
     UDPSockTemp = socket(AF_INET, SOCK_DGRAM)

@@ -8,6 +8,8 @@ from collections import namedtuple
 from math import log
 from binascii import hexlify, unhexlify
 
+from tkinter import *
+
 
 # LWZ Decompression
 def decompress(compressed):
@@ -147,7 +149,7 @@ def decode(bcipher, privkey, verbose=False):
 
 
 host = ""
-port = 13001
+port = 13004
 buf = 1024
 address = (host, port)
 
@@ -156,7 +158,7 @@ pubkey, privkey = keygen(2 ** 64)
 
 # It will send just one time to send public key
 hostTemp = "192.168.100.16"
-portTemp = 13001
+portTemp = 13004
 addressTemp = (hostTemp, portTemp)
 UDPSockTemp = socket(AF_INET, SOCK_DGRAM)
 
@@ -173,6 +175,9 @@ UDPSock = socket(AF_INET, SOCK_DGRAM)
 UDPSock.bind(address)
 print("Receiving messages. Please wait...")
 
+# T.insert(END, "Just a text Widget\nin two lines\n")
+# mainloop()
+
 while True:
     (data, address) = UDPSock.recvfrom(buf)
     # data2 = data.decode('utf-8')
@@ -185,7 +190,14 @@ while True:
 
     msgDecompressed = decompress(stringToList)
     print("Received message: " + msgDecompressed)
-    if data == "exit":
+    '''
+    root = Tk()
+    T = Text(root, height=2, width=30)
+    T.insert(INSERT, "Received message: " + msgDecompressed)
+    T.pack()
+    mainloop()
+    '''
+    if msgDecompressed == "exit":
         break
 
 UDPSock.close()
