@@ -6,6 +6,8 @@ from random import randrange
 from collections import namedtuple
 from math import log
 from binascii import hexlify, unhexlify
+from threading import Thread
+import tkinter
 
 
 # LWZ Compression
@@ -60,7 +62,7 @@ def encode(msg, pubkey, verbose=False):
 if __name__ == '__main__':
 
     # Set the ip from the receiver
-    host = "10.52.149.181"
+    host = "192.168.100.9"
     port = 13007
     address = (host, port)
 
@@ -87,13 +89,17 @@ if __name__ == '__main__':
 
     UDPSock = socket(AF_INET, SOCK_DGRAM)
 
+    top = tkinter.Tk()
+    top.title("Jorge Espinosa Lara")
+
     while True:
 
         data = input("Enter message to sent or type 'exit': ")
+
         if data == "exit":
             break
         msgCompressed = compress(data)
-        #print(msgCompressed)
+        print(msgCompressed)
 
         listToString = ""
         for i, item in enumerate(msgCompressed):
@@ -102,12 +108,9 @@ if __name__ == '__main__':
             listToString = listToString + str(item)
 
         msgCoded = encode(listToString, pubKeyReceived, 1)
-        #print(msgCoded)
+        print(msgCoded)
 
         UDPSock.sendto(msgCoded, address)
 
     UDPSock.close()
     os._exit(0)
-
-
-## https://rosettacode.org/wiki/LZW_compression#Python

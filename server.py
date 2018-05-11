@@ -7,6 +7,8 @@ from random import randrange
 from collections import namedtuple
 from math import log
 from binascii import hexlify, unhexlify
+from threading import Thread
+import tkinter
 
 from tkinter import *
 
@@ -148,6 +150,27 @@ def decode(bcipher, privkey, verbose=False):
     return b''.join(result).rstrip(b'\x00').decode()
 
 
+def receive():
+    while True:
+        (data, address) = UDPSock.recvfrom(buf)
+        print("Mensaje encriptado: " + str(data))
+
+        msgDecoded = decode(data, privkey, 1)
+
+        stringToList = []
+        for x in msgDecoded.split(','):
+            stringToList.append(int(x))
+
+        print("Mensaje compress: " + str(stringToList))
+        msgDecompressed = decompress(stringToList)
+        # print("Received message: " + msgDecompressed)
+
+        msg_list.insert(tkinter.END, msgDecompressed)
+
+        if msgDecompressed == "exit":
+            break
+
+
 host = ""
 port = 13007
 buf = 1024
@@ -157,7 +180,7 @@ address = (host, port)
 pubkey, privkey = keygen(2 ** 64)
 
 # It will send just one time to send public key
-hostTemp = "10.52.149.181"
+hostTemp = "192.168.100.9"
 portTemp = 13006
 addressTemp = (hostTemp, portTemp)
 UDPSockTemp = socket(AF_INET, SOCK_DGRAM)
@@ -175,30 +198,20 @@ UDPSock = socket(AF_INET, SOCK_DGRAM)
 UDPSock.bind(address)
 print("Receiving messages. Please wait...")
 
-# T.insert(END, "Just a text Widget\nin two lines\n")
-# mainloop()
+top = tkinter.Tk()
+top.title("Jorge Espinosa Lara")
+messages_frame = tkinter.Frame(top)
+scrollbar = tkinter.Scrollbar(messages_frame)  # To navigate through past messages.
+# Following will contain the messages.
+msg_list = tkinter.Listbox(messages_frame, height=15, width=50, yscrollcommand=scrollbar.set)
+scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+msg_list.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
+msg_list.pack()
+messages_frame.pack()
 
-while True:
-    (data, address) = UDPSock.recvfrom(buf)
-    # data2 = data.decode('utf-8')
+receive_thread = Thread(target=receive)
+receive_thread.start()
 
-    msgDecoded = decode(data, privkey, 1)
-
-    stringToList = []
-    for x in msgDecoded.split(','):
-        stringToList.append(int(x))
-
-    msgDecompressed = decompress(stringToList)
-    print("Received message: " + msgDecompressed)
-    '''
-    root = Tk()
-    T = Text(root, height=2, width=30)
-    T.insert(INSERT, "Received message: " + msgDecompressed)
-    T.pack()
-    mainloop()
-    '''
-    if msgDecompressed == "exit":
-        break
-
+tkinter.mainloop()
 UDPSock.close()
 os._exit(0)
