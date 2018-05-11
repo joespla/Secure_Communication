@@ -6,6 +6,8 @@ from random import randrange
 from collections import namedtuple
 from math import log
 from binascii import hexlify, unhexlify
+from threading import Thread
+import tkinter
 
 
 # LWZ Compression
@@ -57,10 +59,35 @@ def encode(msg, pubkey, verbose=False):
     return b''.join(result)
 
 
-if __name__ == '__main__':
+def send(event=None):
+    # data = input("Enter message to sent or type 'exit': ")
+    data = my_msg.get()
+    my_msg.set("")
 
+    if not data:
+        data = "Send a correct message"
+
+    if data == "exit":
+        UDPSock.close()
+        os._exit(0)
+    msgCompressed = compress(data)
+    print(msgCompressed)
+
+    listToString = ""
+    for i, item in enumerate(msgCompressed):
+        if i:
+            listToString = listToString + ','
+        listToString = listToString + str(item)
+
+    msgCoded = encode(listToString, pubKeyReceived, 1)
+    print(msgCoded)
+
+    UDPSock.sendto(msgCoded, address)
+
+
+if __name__ == '__main__':
     # Set the ip from the receiver
-    host = "10.52.149.181"
+    host = "192.168.100.9"
     port = 13007
     address = (host, port)
 
@@ -87,27 +114,17 @@ if __name__ == '__main__':
 
     UDPSock = socket(AF_INET, SOCK_DGRAM)
 
-    while True:
+    top = tkinter.Tk()
+    top.title("Jorge Espinosa Lara")
+    top.geometry("500x500")
 
-        data = input("Enter message to sent or type 'exit': ")
-        if data == "exit":
-            break
-        msgCompressed = compress(data)
-        #print(msgCompressed)
+    my_msg = tkinter.StringVar()  # For the messages to be sent.
+    my_msg.set("Type your messages here.")
 
-        listToString = ""
-        for i, item in enumerate(msgCompressed):
-            if i:
-                listToString = listToString + ','
-            listToString = listToString + str(item)
+    entry_field = tkinter.Entry(top, textvariable=my_msg)
+    entry_field.bind("<Return>", send)
+    entry_field.pack()
+    send_button = tkinter.Button(top, text="Send", command=send)
+    send_button.pack()
 
-        msgCoded = encode(listToString, pubKeyReceived, 1)
-        #print(msgCoded)
-
-        UDPSock.sendto(msgCoded, address)
-
-    UDPSock.close()
-    os._exit(0)
-
-
-## https://rosettacode.org/wiki/LZW_compression#Python
+    tkinter.mainloop()
