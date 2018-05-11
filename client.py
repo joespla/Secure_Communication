@@ -59,8 +59,33 @@ def encode(msg, pubkey, verbose=False):
     return b''.join(result)
 
 
-if __name__ == '__main__':
+def send(event=None):
+    # data = input("Enter message to sent or type 'exit': ")
+    data = my_msg.get()
+    my_msg.set("")
 
+    if not data:
+        data = "Send a correct message"
+
+    if data == "exit":
+        UDPSock.close()
+        os._exit(0)
+    msgCompressed = compress(data)
+    print(msgCompressed)
+
+    listToString = ""
+    for i, item in enumerate(msgCompressed):
+        if i:
+            listToString = listToString + ','
+        listToString = listToString + str(item)
+
+    msgCoded = encode(listToString, pubKeyReceived, 1)
+    print(msgCoded)
+
+    UDPSock.sendto(msgCoded, address)
+
+
+if __name__ == '__main__':
     # Set the ip from the receiver
     host = "192.168.100.9"
     port = 13007
@@ -91,26 +116,15 @@ if __name__ == '__main__':
 
     top = tkinter.Tk()
     top.title("Jorge Espinosa Lara")
+    top.geometry("500x500")
 
-    while True:
+    my_msg = tkinter.StringVar()  # For the messages to be sent.
+    my_msg.set("Type your messages here.")
 
-        data = input("Enter message to sent or type 'exit': ")
+    entry_field = tkinter.Entry(top, textvariable=my_msg)
+    entry_field.bind("<Return>", send)
+    entry_field.pack()
+    send_button = tkinter.Button(top, text="Send", command=send)
+    send_button.pack()
 
-        if data == "exit":
-            break
-        msgCompressed = compress(data)
-        print(msgCompressed)
-
-        listToString = ""
-        for i, item in enumerate(msgCompressed):
-            if i:
-                listToString = listToString + ','
-            listToString = listToString + str(item)
-
-        msgCoded = encode(listToString, pubKeyReceived, 1)
-        print(msgCoded)
-
-        UDPSock.sendto(msgCoded, address)
-
-    UDPSock.close()
-    os._exit(0)
+    tkinter.mainloop()

@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="360589d3-da33-44e1-801c-0f4fe7a80340" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/client.py" afterPath="$PROJECT_DIR$/client.py" />
-      <change beforePath="$PROJECT_DIR$/server.py" afterPath="$PROJECT_DIR$/server.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,8 +21,8 @@
           <file leaf-file-name="client.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/client.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="848">
-                  <caret line="115" column="15" lean-forward="false" selection-start-line="115" selection-start-column="15" selection-end-line="115" selection-end-column="15" />
+                <state relative-caret-position="698">
+                  <caret line="118" column="25" lean-forward="false" selection-start-line="118" selection-start-column="25" selection-end-line="118" selection-end-column="25" />
                   <folding>
                     <element signature="e#29#38#0" expanded="true" />
                     <element signature="e#307#860#0" expanded="false" />
@@ -41,8 +39,8 @@
           <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/server.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="683">
-                  <caret line="204" column="35" lean-forward="true" selection-start-line="204" selection-start-column="35" selection-end-line="204" selection-end-column="35" />
+                <state relative-caret-position="800">
+                  <caret line="205" column="8" lean-forward="false" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="8" />
                   <folding>
                     <element signature="e#32#41#0" expanded="true" />
                     <element signature="e#335#997#0" expanded="false" />
@@ -657,8 +655,8 @@
     <entry file="file://$PROJECT_DIR$/Window.py" />
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="683">
-          <caret line="204" column="35" lean-forward="true" selection-start-line="204" selection-start-column="35" selection-end-line="204" selection-end-column="35" />
+        <state relative-caret-position="800">
+          <caret line="205" column="8" lean-forward="false" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="8" />
           <folding>
             <element signature="e#32#41#0" expanded="true" />
             <element signature="e#335#997#0" expanded="false" />
@@ -673,8 +671,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="848">
-          <caret line="115" column="15" lean-forward="false" selection-start-line="115" selection-start-column="15" selection-end-line="115" selection-end-column="15" />
+        <state relative-caret-position="698">
+          <caret line="118" column="25" lean-forward="false" selection-start-line="118" selection-start-column="25" selection-end-line="118" selection-end-column="25" />
           <folding>
             <element signature="e#29#38#0" expanded="true" />
             <element signature="e#307#860#0" expanded="false" />
