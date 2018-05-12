@@ -1,5 +1,6 @@
-# To run this project you have to run it in two computers and edit some variables in both scripts in both computers:
+# Be sure to have two computers for this project. 
 
+To run this project you have to run it in two computers and edit some variables in both scripts in both computers:
 Computer A: 
 
 client.py
